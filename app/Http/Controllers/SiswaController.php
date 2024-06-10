@@ -56,7 +56,7 @@ class SiswaController extends Controller
         ]);
     
         // Redirect ke halaman tertentu dengan pesan sukses
-        return redirect('/siswa')->with('success', 'Siswa berhasil ditambahkan.');
+        return redirect('/siswa')->with('success', 'Data Siswa berhasil ditambahkan.');
     }
     
 
@@ -100,7 +100,7 @@ class SiswaController extends Controller
         ]);
     
         // Redirect ke halaman tertentu dengan pesan sukses
-        return redirect('/siswa')->with('success', 'Siswa berhasil diperbarui.');
+        return redirect('/siswa')->with('success', 'Data Siswa berhasil diubah.');
     }
     
 
@@ -110,6 +110,6 @@ class SiswaController extends Controller
     public function destroy(string $nis)
     {
         DB::table('siswa')->where('nis', $nis)->delete(); 
-        return redirect('/siswa')->with('success', 'Siswa berhasil Dihapus.');
+        return redirect('/siswa')->with('success', 'Data Siswa berhasil dihapus.');
     }
 }

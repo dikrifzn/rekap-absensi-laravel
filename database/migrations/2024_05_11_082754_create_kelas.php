@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama_kelas', 25);
             $table->foreignId('id_guru')->references('nuptk')->on('guru')->onDelete('cascade');
+            $table->string('gambar')->nullable();
             $table->timestamps();
         });
     }

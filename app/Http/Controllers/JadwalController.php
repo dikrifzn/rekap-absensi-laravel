@@ -37,7 +37,7 @@ class JadwalController extends Controller
         ]);
     
         // Redirect ke halaman tertentu dengan pesan sukses
-        return redirect('/jadwal')->with('success', 'Jadwal berhasil ditambahkan.');
+        return redirect('/jadwal')->with('success', 'Data Jadwal berhasil ditambahkan.');
     }
     public function update(Request $request, string $id)
     {
@@ -56,11 +56,11 @@ class JadwalController extends Controller
         ]);
     
         // Redirect ke halaman tertentu dengan pesan sukses
-        return redirect('/jadwal')->with('success', 'Jadwal berhasil diubah.');
+        return redirect('/jadwal')->with('success', 'Data Jadwal berhasil diubah.');
     }
     public function destroy(string $id)
     {
         DB::table('jadwal_mengajar')->where('id', $id)->delete(); 
-        return redirect('/jadwal')->with('success', 'Jadwal berhasil Dihapus.');
+        return redirect('/jadwal')->with('success', 'Data Jadwal berhasil dihapus.');
     }
 }

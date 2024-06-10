@@ -9,6 +9,11 @@
 </head>
 
 <body>
+    @if(session('error'))
+        <div class="alert alert-danger" role="alert">
+            {{ session('error') }}
+        </div>
+    @endif
     <main>
         <div class="box">
             <div class="togaIcon">
@@ -17,13 +22,14 @@
                 </div>
             </div>
             <div class="formLogin">
-                <form action="/absen">
+                <form action="{{ route('login.login') }}" method="POST">
+                    @csrf
                     <table>
                         <tr>
                             <td>
                                 <div class="container">
                                     <div class="did-floating-label-content">
-                                        <input class="did-floating-input" type="text" placeholder="" />
+                                        <input class="did-floating-input" type="email" placeholder="" name="email"/>
                                         <label class="did-floating-label">Username</label>
                                     </div>
                                 </div>
@@ -33,7 +39,7 @@
                             <td>
                                 <div class="container">
                                     <div class="did-floating-label-content">
-                                        <input class="did-floating-input" type="password" placeholder="" />
+                                        <input class="did-floating-input" type="password" placeholder="" name="password"/>
                                         <label class="did-floating-label">Password</label>
                                     </div>
                                 </div>

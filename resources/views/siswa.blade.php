@@ -139,7 +139,6 @@
                 <option value="{{ $kelas->id }}">{{ $kelas->nama_kelas }}</option>
                 @endforeach
               </select>
-              </select>
             </div>
             <div class="input-group mb-3">
               <label class="input-group-text" for="edit-status">Status</label>

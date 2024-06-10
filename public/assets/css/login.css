@@ -58,7 +58,8 @@ tr td {
     height: 36px;
     padding: 0 20px;
     background: #e0e8fb;
-    color: #78a77b;
+    color: #635bff;
+    font-weight: bold;
     border: none;
     border-radius: 25px;
     box-sizing: border-box;
@@ -118,3 +119,14 @@ footer {
     text-align: center;
     color: #e0fbe2;
 }
+.alert {
+    padding: 15px;
+    border: 1px solid transparent;
+  }
+  
+  .alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+  }
+  

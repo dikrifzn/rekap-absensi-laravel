@@ -29,7 +29,7 @@ class GuruController extends Controller
         ]);
     
         // Redirect ke halaman tertentu dengan pesan sukses
-        return redirect('/guru')->with('success', 'Guru berhasil ditambahkan.');
+        return redirect('/guru')->with('success', 'Data Guru berhasil ditambahkan.');
     }
 
     public function update(Request $request, string $nuptk)
@@ -47,12 +47,12 @@ class GuruController extends Controller
         ]);
     
         // Redirect ke halaman tertentu dengan pesan sukses
-        return redirect('/guru')->with('success', 'Guru berhasil diubah.');
+        return redirect('/guru')->with('success', 'Data Guru berhasil diubah.');
     }
 
     public function destroy(string $nuptk)
     {
         DB::table('guru')->where('nuptk', $nuptk)->delete(); 
-        return redirect('/guru')->with('success', 'Guru berhasil Dihapus.');
+        return redirect('/guru')->with('success', 'Data Guru berhasil dihapus.');
     }
 }

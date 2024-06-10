@@ -22,7 +22,7 @@ class RekapController extends Controller
 
         return view('absenkelas', ['rekapSiswas' => $rekapSiswas, 'pelajarans' => $pelajarans]);
     }
-    
+
 
     /**
      * Show the form for creating a new resource.

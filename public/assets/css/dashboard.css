@@ -15,7 +15,8 @@
 }
 
 .card__kelas {
-  position: relative;
+  position: relative; /* Ensure relative positioning for absolute positioned content */
+  overflow: hidden;
   width: 20em;
   transition: all .3s ease-in-out;
   overflow: hidden;
@@ -28,6 +29,8 @@
 
 .card__kelas img {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .card__link {
@@ -39,6 +42,7 @@
   padding: 0 0 10px 0;
   display: flex;
   justify-content: center;
+  height: 180px;
 
   svg path {
     opacity: 0;

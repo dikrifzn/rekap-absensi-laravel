@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Jadwal;
 use Carbon\Carbon;
 
@@ -15,7 +16,7 @@ class KelasController extends Controller
     public function index(){
         $kelases = DB::table('kelas')
         ->join('guru', 'kelas.id_guru', '=', 'guru.nuptk')
-        ->select('kelas.id', 'kelas.nama_kelas', 'guru.nuptk', 'guru.nama_guru')
+        ->select('kelas.id', 'kelas.nama_kelas', 'guru.nuptk', 'guru.nama_guru', 'kelas.gambar')
         ->get();
         $gurus = DB::table('guru')->get();
         return view('kelas', ['kelases' => $kelases, 'gurus' => $gurus]);
@@ -24,7 +25,7 @@ class KelasController extends Controller
     {
         $kelases = DB::table('kelas')
         ->join('guru', 'kelas.id_guru', '=', 'guru.nuptk')
-        ->select('kelas.nama_kelas', 'guru.nama_guru')
+        ->select('kelas.nama_kelas', 'guru.nama_guru', 'kelas.gambar')
         ->get();
 
     
@@ -51,22 +52,28 @@ class KelasController extends Controller
      */
     public function store(Request $request)
     {
-        // Validasi data yang diterima
-        $request->validate([
-            'nama_kelas' => 'required',
-            'id_guru' => 'required'
+        $validated = $request->validate([
+            'nama_kelas' => 'required|string|max:255',
+            'id_guru' => 'required|exists:guru,nuptk',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
     
-        // Gunakan DB Facade untuk menyimpan data
+        $gambarPath = null;
+        if ($request->hasFile('gambar')) {
+            $gambarPath = $request->file('gambar')->store('public/kelas');
+            $gambarPath = Storage::url($gambarPath);
+        }
+    
         DB::table('kelas')->insert([
-            'nama_kelas' => $request->nama_kelas,
-            'id_guru' => $request->id_guru,
-            'created_at' => now(), // Jika tabel memiliki kolom timestamps
-            'updated_at' => now()  // Jika tabel memiliki kolom timestamps
-        ]);
+            'nama_kelas' => $validated['nama_kelas'],
+            'id_guru' => $validated['id_guru'],
+            'gambar' => $gambarPath,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);    
     
         // Redirect ke halaman tertentu dengan pesan sukses
-        return redirect('/kelas')->with('success', 'Kelas berhasil ditambahkan.');
+        return redirect('/kelas')->with('success', 'Data Kelas berhasil ditambahkan.');
     }
 
     /**
@@ -90,20 +97,29 @@ class KelasController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // Validasi data yang diterima
-        $request->validate([
-            'nama_kelas' => 'required',
-            'id_guru' => 'required'
+        $validated = $request->validate([
+            'nama_kelas' => 'required|string|max:255',
+            'nuptk' => 'required|exists:guru,nuptk',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
     
-        // Gunakan DB Facade untuk menyimpan data
+        $gambarPath = null;
+        if ($request->hasFile('gambar')) {
+            $gambarPath = $request->file('gambar')->store('public/kelas');
+            $gambarPath = Storage::url($gambarPath);
+        }
+    
+        $kelas = DB::table('kelas')->where('id', $id)->first();
+    
         DB::table('kelas')->where('id', $id)->update([
-            'nama_kelas' => $request->nama_kelas,
-            'id_guru' => $request->id_guru,
+            'nama_kelas' => $validated['nama_kelas'],
+            'id_guru' => $validated['nuptk'],
+            'gambar' => $gambarPath ?? $kelas->gambar,
+            'updated_at' => now(),
         ]);
     
         // Redirect ke halaman tertentu dengan pesan sukses
-        return redirect('/kelas')->with('success', 'Kelas berhasil diubah.');
+        return redirect('/kelas')->with('success', 'Data Kelas berhasil diubah.');
     }
 
     /**
@@ -111,7 +127,17 @@ class KelasController extends Controller
      */
     public function destroy(string $id)
     {
-        DB::table('kelas')->where('id', $id)->delete(); 
-        return redirect('/kelas')->with('success', 'Kelas berhasil Dihapus.');
+        $kelas = DB::table('kelas')->where('id', $id)->first();
+
+        if ($kelas) {
+            // Delete associated image file
+            if ($kelas->gambar) {
+                // dd($kelas->gambar);
+                Storage::delete($kelas->gambar);
+                DB::table('kelas')->where('id', $id)->delete();
+            }
+
+        }
+        return redirect('/kelas')->with('success', 'Data Kelas berhasil dihapus.');
     }
 }

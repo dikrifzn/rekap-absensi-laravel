@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Dashboard | Al-Awaliyah</title>
+    <link rel="shortcut icon" type="image/png" href="../assets/images/favicon.png" />
     <link rel="stylesheet" href="../assets/css/styles.min.css" />
     <link rel="stylesheet" href="../assets/css/dashboard.css">
 </head>
@@ -22,6 +23,17 @@
                 <div class="container-fluid">
                     <!--Main-->
                     <main>
+                        @if(session('success'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('success') }}
+                        </div>
+                        @endif
+                        @if(session('error'))
+                        <div class="alert alert-danger" role="alert">
+                            {{ session('error') }}
+                        </div>
+                        @endif
+
                         {{$slot}}
                     </main>
                 </div>

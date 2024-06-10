@@ -4,45 +4,13 @@
       <div class="card">
         <div class="card-body">
           <div class="mb-3 mb-sm-0">
-            <div class="row gx-3">
-              <div class="col-12 col-md p-0 mb-3">
-                <div class="input-group">
-                  <label class="input-group-text rounded-0 rounded-start" for="kelasSelect">Kelas</label>
-                  <select class="form-select rounded-0" id="kelasSelect">
-                    <option selected>A1</option>
-                    <option value="1">A2</option>
-                    <option value="2">B1</option>
-                    <option value="3">B2</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-12 col-md p-0 mb-3">
-                <div class="input-group">
-                  <label class="input-group-text rounded-0" for="pelajaranSelect">Pelajaran</label>
-                  <select class="form-select rounded-0" id="pelajaranSelect">
-                    <option selected>Fiqih</option>
-                    <option value="1">Al-Quran</option>
-                    <option value="2">Hadits</option>
-                    <option value="3">Akhlaq</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-12 col-md p-0 mb-3">
-                <div class="input-group">
-                  <label class="input-group-text rounded-0" for="pelajaranSelect">Bulan</label>
-                  <select class="form-select rounded-0 rounded-end" id="pelajaranSelect">
-                    <option selected>Januari</option>
-                    <option value="1">Februari</option>
-                    <option value="2">Maret</option>
-                    <option value="3">April</option>
-                  </select>
-                </div>
-              </div>
-            </div>
             <h5 class="card-title fw-semibold mt-3">Kelas A1</h5>
             <div class="row">
               <div class="col">
-                <button class="btn btn-info text-white">Download Rekap</button>
+                <button class="btn btn-info text-white" data-bs-toggle="modal" data-bs-target="#exampleModal2">Download Rekap</button>
+              </div>
+              <div class="col text-end">
+                <button class="btn btn-info text-white" data-bs-toggle="modal" data-bs-target="#exampleModal">Filter</button>
               </div>
               <div class="table-responsive">
                 <table class="table table-striped">
@@ -86,4 +54,122 @@
       </div>
     </div>
   </div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Siswa</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('rekap.filter') }}" method="POST">
+                    @csrf
+                    <div class="row gx-3">
+                        <div class="col-12 p-0 mb-3">
+                            <div class="input-group">
+                                <label class="input-group-text rounded-0 rounded-start" for="kelasSelect">Kelas</label>
+                                <select class="form-select rounded-0" id="kelasSelect" name="kelas">
+                                  @foreach ($kelases as $kelas)
+                                  <option value="{{ $kelas->id }}">{{ $kelas->nama_kelas }}</option>
+                                  @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 p-0 mb-3">
+                            <div class="input-group">
+                                <label class="input-group-text rounded-0" for="pelajaranSelect">Pelajaran</label>
+                                <select class="form-select rounded-0" id="pelajaranSelect" name="mata_pelajaran">
+                                  @foreach ($pelajarans as $pelajaran)
+                                  <option value="{{ $pelajaran->id }}">{{ $pelajaran->nama_pelajaran }}</option>
+                                  @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md p-0 mb-3">
+                            <div class="input-group">
+                                <label class="input-group-text rounded-0" for="bulanSelect">Bulan</label>
+                                <select class="form-select rounded-0 rounded-end" id="bulanSelect" name="bulan">
+                                    <option value="1" selected>Januari</option>
+                                    <option value="2">Februari</option>
+                                    <option value="3">Maret</option>
+                                    <option value="4">April</option>
+                                    <option value="5">Mei</option>
+                                    <option value="6">Juni</option>
+                                    <option value="7">Juli</option>
+                                    <option value="8">Agustus</option>
+                                    <option value="9">September</option>
+                                    <option value="10">Oktober</option>
+                                    <option value="11">November</option>
+                                    <option value="12">Desember</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Ubah</button>
+                    <a href="/rekap" class="btn btn-danger">Reset</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Download Rekap</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form action="{{ route('rekap.download') }}" method="POST">
+                @csrf
+                <div class="row gx-3">
+                    <div class="col-12 p-0 mb-3">
+                        <div class="input-group">
+                            <label class="input-group-text rounded-0 rounded-start" for="kelasSelect">Kelas</label>
+                            <select class="form-select rounded-0" id="kelasSelect" name="kelas">
+                                <option value="" selected>Semua</option>
+                                @foreach ($kelases as $kelas)
+                                <option value="{{ $kelas->id }}">{{ $kelas->nama_kelas }}</option>
+                                @endforeach
+                              </select>
+                        </div>
+                    </div>
+                    <div class="col-12 p-0 mb-3">
+                        <div class="input-group">
+                            <label class="input-group-text rounded-0" for="pelajaranSelect">Pelajaran</label>
+                            <select class="form-select rounded-0" id="pelajaranSelect" name="pelajaran">
+                                <option value="" selected>Semua</option>
+                                @foreach ($pelajarans as $pelajaran)
+                                <option value="{{ $pelajaran->id }}">{{ $pelajaran->nama_pelajaran }}</option>
+                                @endforeach
+                              </select>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md p-0 mb-3">
+                        <div class="input-group">
+                            <label class="input-group-text rounded-0" for="bulanSelect">Bulan</label>
+                            <select class="form-select rounded-0 rounded-end" id="bulanSelect" name="bulan">
+                                <option value="1" selected>Januari</option>
+                                <option value="2">Februari</option>
+                                <option value="3">Maret</option>
+                                <option value="4">April</option>
+                                <option value="5">Mei</option>
+                                <option value="6">Juni</option>
+                                <option value="7">Juli</option>
+                                <option value="8">Agustus</option>
+                                <option value="9">September</option>
+                                <option value="10">Oktober</option>
+                                <option value="11">November</option>
+                                <option value="12">Desember</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Download Rekap</button>
+            </form>            
+            </div>
+        </div>
+    </div>
+</div>
 </x-layout>

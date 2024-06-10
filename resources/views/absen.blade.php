@@ -8,13 +8,16 @@
             <div class="mb-3 mb-sm-0">
               <h5 class="card-title fw-semibold">Kelas</h5>
               <div class="row">
-                @foreach ($kelases as $kls)
+                @foreach ($kelases as $index => $kls)
+                @php
+                $gambarIndex = $index % 3 + 1;
+                @endphp
                 <div class="col mt-4 d-flex justify-content-center">
                   <article class="card__kelas rounded">
                     <a href="{{ 'absen/' . $kls->nama_kelas }}" class="card__link">
                       <!-- Media -->
                       <div class="card__media">
-                        <img src="../assets/images/blog/blog-img1.jpg">
+                        <img src="{{ $kls->gambar ?? '../assets/images/blog/blog-img'. $gambarIndex .'.jpg' }}" alt="Gambar Kelas">
                       </div>
                       <!-- Header -->
                       <div class="card__header">
