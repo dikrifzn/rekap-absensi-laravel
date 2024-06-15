@@ -35,12 +35,10 @@ class KehadiranController extends Controller
 
     public function filter(Request $request)
     {
-        // Retrieve form inputs
         $kelas = $request->input('kelas');
         $mata_pelajaran = $request->input('mata_pelajaran');
         $bulan = $request->input('bulan');
     
-        // Use a parameterized query to prevent SQL injection
         $query = "
             SELECT siswa.nis, siswa.nama, kelas.nama_kelas, 
                 COALESCE(SUM(CASE WHEN kehadiran.status_presensi = 'Hadir' THEN 1 ELSE 0 END), 0) as hadir,
@@ -58,7 +56,6 @@ class KehadiranController extends Controller
             GROUP BY siswa.nis;
         ";
     
-        // Execute the query
         $kehadirans = DB::select($query, [
             'bulan' => $bulan,
             'mata_pelajaran' => $mata_pelajaran,
@@ -67,13 +64,11 @@ class KehadiranController extends Controller
         $kelases = DB::table('kelas')->get();
         $pelajarans = DB::table('pelajaran')->get();
     
-        // Return the results (you can pass them to a view)
         return view('rekap', compact('kehadirans', 'kelases', 'pelajarans'));
     }
     
     public function downloadRekap(Request $request)
     {
-        // Ambil filter dari request
         $kelas = $request->input('kelas');
         $pelajaran = $request->input('pelajaran');
         $bulan = $request->input('bulan', date('n'));
@@ -81,7 +76,6 @@ class KehadiranController extends Controller
         $spreadsheet = new Spreadsheet();
         $activeWorksheet = $spreadsheet->getActiveSheet();
     
-        // Query untuk mengambil data siswa dan kehadiran dengan filter
         $query = "
             SELECT
                 siswa.nis,
@@ -113,7 +107,6 @@ class KehadiranController extends Controller
     
         $results = DB::select($query, $params);
     
-        // Judul
         $activeWorksheet->setCellValue('A2', 'DAFTAR HADIR SISWA');
         $activeWorksheet->mergeCells('A2:AL2');
         $activeWorksheet->setCellValue('A3', 'MADRASAH AL-AWALIYAH');
@@ -127,7 +120,6 @@ class KehadiranController extends Controller
         ];
         $activeWorksheet->getStyle('A2:AL3')->applyFromArray($styleTitle);
     
-        // Header Tabel
         $activeWorksheet->setCellValue('A5', 'No');
         $activeWorksheet->mergeCells('A5:A6');
         
@@ -156,7 +148,6 @@ class KehadiranController extends Controller
         $activeWorksheet->setCellValue('AK6', 'Izin');
         $activeWorksheet->setCellValue('AL6', 'Alpha');
     
-        // Isi Data
         foreach ($results as $key => $row) {
             $activeWorksheet->setCellValue('A'.($key+7), $key+1);
             $activeWorksheet->setCellValue('B'.($key+7), $row->nis);
@@ -167,7 +158,6 @@ class KehadiranController extends Controller
             $activeWorksheet->setCellValue('AK'.($key+7), $row->izin);
             $activeWorksheet->setCellValue('AL'.($key+7), $row->alpha);
     
-            // Mengambil data kehadiran per hari untuk siswa tersebut
             $kehadiranHarian = DB::select("
                 SELECT 
                     DAY(tanggal) as hari,
@@ -176,22 +166,20 @@ class KehadiranController extends Controller
                 WHERE nis = ? AND MONTH(tanggal) = ?
             ", [$row->nis, $bulan]);
     
-            // Isi kolom tanggal dengan status kehadiran
             foreach ($kehadiranHarian as $kehadiran) {
                 $columnLetter = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($kehadiran->hari + 4);
                 $activeWorksheet->setCellValue($columnLetter . ($key + 7), $kehadiran->status_presensi);
             }
         }
     
-        // Menambahkan border ke seluruh data
-        $lastRow = count($results) + 6; // Baris terakhir yang memiliki data
+        $lastRow = count($results) + 6;
         $activeWorksheet->getStyle('A5:AL' . $lastRow)->getBorders()->getAllBorders()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
     
         $styleArray = [
             'fill' => [
                 'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
                 'startColor' => [
-                    'rgb' => 'FFFF00', // Warna kuning, sesuaikan dengan warna yang Anda inginkan
+                    'rgb' => 'FFFF00',
                 ],
             ],
             'alignment' => [
@@ -201,7 +189,6 @@ class KehadiranController extends Controller
         ];
         $activeWorksheet->getStyle('A5:AL6')->applyFromArray($styleArray);
     
-        // Memberikan gaya khusus pada kolom "Bulan:"
         $styleBulan = [
             'alignment' => [
                 'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
@@ -210,12 +197,9 @@ class KehadiranController extends Controller
         ];
         $activeWorksheet->getStyle('E5')->applyFromArray($styleBulan);
     
-        // Set headers to force file download
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment;filename="rekap-absensi.xlsx"');
         header('Cache-Control: max-age=0');
-    
-        // Save spreadsheet to output
         $writer = new Xlsx($spreadsheet);
         $writer->save('php://output');
         exit;

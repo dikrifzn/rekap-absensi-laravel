@@ -9,12 +9,10 @@ use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\PelajaranController;
 use App\Http\Controllers\Auth\LoginController;
 
-// Rute-rute yang diakses tanpa autentikasi
 Route::get('/', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('login.logout');
 
-// Rute-rute yang memerlukan autentikasi
 Route::middleware(['auth'])->group(function () {
     Route::get('/absen', [KelasController::class, 'absen']);
     Route::get('/absen/{namaKelas}', [RekapController::class, 'index']);
@@ -24,6 +22,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/rekap/filter', [KehadiranController::class, 'filter'])->name('rekap.filter');
     Route::post('/download-rekap', [KehadiranController::class, 'downloadRekap'])->name('rekap.download');
 
+    Route::get('/siswa/search', [SiswaController::class, 'search'])->name('siswa.search');
     Route::resource('/siswa', SiswaController::class);
     Route::resource('/kelas', KelasController::class);
     Route::resource('/guru', GuruController::class);

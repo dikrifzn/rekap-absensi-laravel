@@ -21,6 +21,7 @@ class KelasController extends Controller
         $gurus = DB::table('guru')->get();
         return view('kelas', ['kelases' => $kelases, 'gurus' => $gurus]);
     }
+
     public function absen()
     {
         $kelases = DB::table('kelas')
@@ -34,7 +35,6 @@ class KelasController extends Controller
         ->select('jadwal_mengajar.*', 'kelas.nama_kelas')
         ->get();
         
-        // Kirim data ke view
         return view('absen', ['kelases' => $kelases, 'jadwalMengajars' => $jadwalMengajars]);
     }
 
@@ -69,10 +69,8 @@ class KelasController extends Controller
             'id_guru' => $validated['id_guru'],
             'gambar' => $gambarPath,
             'created_at' => now(),
-            'updated_at' => now(),
         ]);    
     
-        // Redirect ke halaman tertentu dengan pesan sukses
         return redirect('/kelas')->with('success', 'Data Kelas berhasil ditambahkan.');
     }
 
@@ -118,7 +116,6 @@ class KelasController extends Controller
             'updated_at' => now(),
         ]);
     
-        // Redirect ke halaman tertentu dengan pesan sukses
         return redirect('/kelas')->with('success', 'Data Kelas berhasil diubah.');
     }
 
@@ -130,14 +127,12 @@ class KelasController extends Controller
         $kelas = DB::table('kelas')->where('id', $id)->first();
 
         if ($kelas) {
-            // Delete associated image file
             if ($kelas->gambar) {
-                // dd($kelas->gambar);
                 Storage::delete($kelas->gambar);
                 DB::table('kelas')->where('id', $id)->delete();
             }
-
         }
+        
         return redirect('/kelas')->with('success', 'Data Kelas berhasil dihapus.');
     }
 }

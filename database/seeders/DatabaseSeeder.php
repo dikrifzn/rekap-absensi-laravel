@@ -20,5 +20,10 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@test.com',
             'password' => Hash::make('admin123')
         ]);
+        $this->call(GuruSeeder::class);
+        $this->call(KelasSeeder::class);
+        $this->call(PelajaranSeeder::class);
+        $this->call(JadwalSeeder::class);
+        $this->call(SiswaSeeder::class);
     }
 }

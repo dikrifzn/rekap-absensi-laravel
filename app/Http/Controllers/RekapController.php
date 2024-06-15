@@ -37,33 +37,28 @@ class RekapController extends Controller
      */
     public function store(Request $request)
     {
-        // Validasi input jika diperlukan
         $request->validate([
             'nis' => 'required|array',
             'nis.*' => 'required|string',
         ]);
 
-        // Ambil data dari request
         $nisArray = $request->input('nis');
-        $matapelajaran = $request->input('matapelajaran'); // Asumsikan id_pelajaran dikirim dari form atau diatur di controller
+        $matapelajaran = $request->input('matapelajaran');
         $tanggal = $request->input('tanggal');
 
         foreach ($nisArray as $nis) {
             $statusPresensi = $request->input($nis . '_status');
 
-            // Gunakan DB Facade untuk memasukkan data ke tabel kehadiran
             DB::table('kehadiran')->insert([
                 'tanggal' => $tanggal,
                 'nis' => $nis,
                 'id_pelajaran' => $matapelajaran,
                 'status_presensi' => $statusPresensi,
                 'created_at' => now(),
-                'updated_at' => now(),
             ]);
         }
 
-        // Redirect atau kembalikan respon sesuai kebutuhan
-        return redirect()->back()->with('success', 'Data kehadiran berhasil disimpan.');
+        return redirect('/rekap')->with('success', 'Data kehadiran berhasil disimpan.');
     }
 
     /**

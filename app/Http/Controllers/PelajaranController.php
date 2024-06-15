@@ -33,14 +33,11 @@ class PelajaranController extends Controller
             'nama_pelajaran' => 'required',
         ]);
     
-        // Gunakan DB Facade untuk menyimpan data
         DB::table('pelajaran')->insert([
             'nama_pelajaran' => $request->nama_pelajaran,
-            'created_at' => now(), // Jika tabel memiliki kolom timestamps
-            'updated_at' => now()  // Jika tabel memiliki kolom timestamps
+            'created_at' => now()
         ]);
     
-        // Redirect ke halaman tertentu dengan pesan sukses
         return redirect('/pelajaran')->with('success', 'Data Pelajaran berhasil ditambahkan.');
     }
 
@@ -65,17 +62,15 @@ class PelajaranController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // Validasi data yang diterima
         $request->validate([
             'nama_pelajaran' => 'required'
         ]);
     
-        // Gunakan DB Facade untuk menyimpan data
         DB::table('pelajaran')->where('id', $id)->update([
-            'pelajaran' => $request->pelajaran
+            'pelajaran' => $request->pelajaran,
+            'updated_at' => now()
         ]);
     
-        // Redirect ke halaman tertentu dengan pesan sukses
         return redirect('/pelajaran')->with('success', 'Data Pelajaran berhasil diubah.');
     }
 

@@ -35,7 +35,6 @@ class SiswaController extends Controller
      */
     public function store(Request $request)
     {
-        // Validasi data yang diterima
         $request->validate([
             'nis' => 'required',
             'nama' => 'required',
@@ -44,18 +43,15 @@ class SiswaController extends Controller
             'status' => 'required'
         ]);
     
-        // Gunakan DB Facade untuk menyimpan data
         DB::table('siswa')->insert([
             'nis' => $request->nis,
             'nama' => $request->nama,
             'jk' => $request->jk,
             'id_kelas' => $request->id_kelas,
             'status' => $request->status,
-            'created_at' => now(), // Jika tabel memiliki kolom timestamps
-            'updated_at' => now()  // Jika tabel memiliki kolom timestamps
+            'created_at' => now()
         ]);
     
-        // Redirect ke halaman tertentu dengan pesan sukses
         return redirect('/siswa')->with('success', 'Data Siswa berhasil ditambahkan.');
     }
     
@@ -81,7 +77,6 @@ class SiswaController extends Controller
      */
     public function update(Request $request, $nis)
     {
-        // Validasi data yang diterima
         $request->validate([
             'nis' => 'required',
             'nama' => 'required',
@@ -90,16 +85,15 @@ class SiswaController extends Controller
             'status' => 'required'
         ]);
     
-        // Update data siswa di database
         DB::table('siswa')->where('nis', $nis)->update([
             'nis' => $request->nis,
             'nama' => $request->nama,
             'jk' => $request->jk,
             'id_kelas' => $request->id_kelas,
             'status' => $request->status,
+            'updated_at' => now()
         ]);
     
-        // Redirect ke halaman tertentu dengan pesan sukses
         return redirect('/siswa')->with('success', 'Data Siswa berhasil diubah.');
     }
     
@@ -111,5 +105,20 @@ class SiswaController extends Controller
     {
         DB::table('siswa')->where('nis', $nis)->delete(); 
         return redirect('/siswa')->with('success', 'Data Siswa berhasil dihapus.');
+    }
+
+    public function search(Request $request)
+    {
+        $keyword = $request->input('keyword');
+        $siswas = DB::table('siswa')
+        ->join('kelas', 'siswa.id_kelas', '=', 'kelas.id')
+        ->select('siswa.nis', 'siswa.nama', 'siswa.jk', 'kelas.nama_kelas', 'kelas.id', 'siswa.status')
+        ->where('siswa.nis', 'LIKE', "%$keyword%")
+        ->orWhere('siswa.nama', 'LIKE', "%$keyword%")
+        ->get();
+
+        $kelases = DB::table('kelas')->get();
+        
+        return view('siswa', compact('siswas', 'kelases'));
     }
 }

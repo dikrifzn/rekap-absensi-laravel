@@ -48,7 +48,8 @@
                     <td class="col-5 text-black">{{ $rekapSiswa->nama }}</td>
                     <input type="hidden" value="{{ $rekapSiswa->nis }}" name="nis[]" checked>
                     <td class="col-1 text-center">
-                      <input class="form-check-input" type="radio" value="Hadir" name="{{ $rekapSiswa->nis }}_status" checked>
+                      <input class="form-check-input" type="radio" value="Hadir" name="{{ $rekapSiswa->nis }}_status"
+                        checked>
                     </td>
                     <td class="col-1 text-center">
                       <input class="form-check-input" type="radio" value="Sakit" name="{{ $rekapSiswa->nis }}_status">

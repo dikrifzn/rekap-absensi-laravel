@@ -1,3 +1,174 @@
+# REKAP ABSENSI
+
+Project ini merupakan Tugas Project Akhir dari Mata Kuliah Pemograman Web 2.
+
+## Daftar isi
+- [Persyaratan Sistem](#persyaratan-sistem)
+- [Instalasi](#instalasi)
+- [Konfigurasi](#konfigurasi)
+- [Penggunaan](#penggunaan)
+- [Fitur](#fitur)
+- [Kontribusi](#kontribusi)
+- [Lisensi](#lisensi)
+
+## Persyaratan Sistem
+
+Pastikan sistem Anda memenuhi persyaratan berikut:
+
+- PHP >= 8.2
+- Composer
+- Web Server (XAMPP atau Laragon)
+- Database (MySQL, PostgreSQL, SQLite, dll.)
+
+## Instalasi
+
+Berikut adalah langkah-langkah untuk menginstal proyek ini:
+
+1. Clone repositori ini:
+
+    ```bash
+    git clone https://github.com/dikrifzn/rekap-absensi-laravel.git
+    cd rekap-absensi-laravel
+    ```
+
+2. Instal dependensi menggunakan Composer:
+
+    ```bash
+    composer install
+    ```
+
+3. Salin file `.env.example` menjadi `.env`:
+
+    ```bash
+    cp .env.example .env
+    ```
+
+4. Generate application key:
+
+    ```bash
+    php artisan key:generate
+    ```
+
+5. Atur konfigurasi database di file `.env`:
+
+    ```dotenv
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=rekap_absensi
+    DB_USERNAME=root
+    DB_PASSWORD=
+    ```
+
+6. Migrasi dan seed database:
+
+    ```bash
+    php artisan migrate --seed
+    ```
+
+7. Jalankan server pengembangan:
+
+    ```bash
+    php artisan serve
+    ```
+
+    Aplikasi akan berjalan di `http://127.0.0.1:8000`.
+
+## Fitur
+
+- [x] Autentikasi
+- [x] Absensi
+- [x] Rekap Absensi
+- [x] Export Rekap ke Excel
+- [x] CRUD Data Siswa
+- [x] CRUD Data Guru
+- [x] CRUD Data Kelas
+- [x] CRUD Data Pelajaran
+- [x] CRUD Data Jadwal
+- [ ] Import siswa dari Excel (segera hadir)
+
+## Penggunaan
+
+### Login
+![Login](readmeImg/login.png)
+Buka browser dan pergi ke alamat http://127.0.0.1:8000/.
+Masukkan kredensial login untuk mengakses Halaman.
+
+Setelah berhasil login, kamu akan diarahkan ke halaman Absen.
+
+Di sini, kamu bisa melihat status login dan berbagai menu di sidebar.
+
+### Mengakses Absensi
+![Absen](readmeImg/absen.png)
+Klik menu Absen di sidebar sebelah kiri.
+Kamu akan diarahkan ke halaman absensi, di mana kamu bisa memilih kelas untuk mengisi absensi. di sebelah kanan terdapat daily jadwal mengajar yang akan berubah warna ketika waktu mengajar akan di mulai 90/60/30 menit lagi
+
+penggunaan absensi bisa dengan cara memanggil siswa lalu klik pilihan Hadir Sakit Izin Alpha oleh Guru lalu klik tombol Simpan. maka akan tersimpan dan bisa di akses lewat halamam rekap
+
+### Melihat Rekap
+![Rekap](readmeImg/rekap.png)
+Klik menu Rekap di sidebar sebelah kiri.
+
+Di halaman ini, kamu bisa melihat rekap absensi dari semua kelas. bisa memfilter kelas, pelajaran dan bulan apa saja yang ingin di lihat
+
+selain itu rekap kehadiran bisa di unduh dengan meng klik tombol Download Rekap dan memilih di unduh semua atau akan di filter kembali
+
+### Mengelola Siswa
+![Siswa](readmeImg/siswa.png)
+Klik menu Siswa di sidebar sebelah kiri.
+Di halaman ini, kamu bisa menambah, mengedit, atau menghapus data siswa.
+
+### Mengelola Guru
+![Guru](readmeImg/rekap.png)
+Klik menu Guru di sidebar sebelah kiri.
+Di halaman ini, kamu bisa menambah, mengedit, atau menghapus data guru.
+
+### Mengelola Kelas
+![Kelas](readmeImg/kelas.png)
+Klik menu Kelas di sidebar sebelah kiri.
+Di halaman ini, kamu bisa menambah, mengedit, atau menghapus data kelas. bahkan dalam halaman kelas ini bisa mengganti baground untuk kelas yang jika ketika menambahkan kelas tidak menyertakan bagroundnya maka akan di gantika secara default oleh sistem.
+
+### Mengelola Pelajaran
+![Pelajaran](readmeImg/pelajaran.png)
+Klik menu Pelajaran di sidebar sebelah kiri.
+Di halaman ini, kamu bisa menambah, mengedit, atau menghapus data pelajaran.
+
+### Mengelola Jadwal
+![Jadwal](readmeImg/jadwal.png)
+Klik menu Jadwal di sidebar sebelah kiri.
+Di halaman ini, kamu bisa menambah, mengedit, atau menghapus jadwal mengajar.
+
+### Log Out
+![Logout](readmeImg/logout.png)
+Klik gambar di pojok kanan atas untuk memunculkan tombol log out. maka sesi anda akan berakhir dan di arahkan kembali ke halaman login
+
+## Kontribusi
+
+Jika Anda ingin berkontribusi pada proyek ini, ikuti langkah-langkah berikut:
+
+1. Fork repositori ini.
+2. Buat branch baru:
+
+    ```bash
+    git checkout -b fitur-baru
+    ```
+
+3. Lakukan perubahan dan commit:
+
+    ```bash
+    git commit -m "Menambahkan fitur baru"
+    ```
+
+4. Push ke branch:
+
+    ```bash
+    git push origin fitur-baru
+    ```
+
+5. Buat pull request.
+
+---
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">

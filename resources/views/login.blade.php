@@ -1,18 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LOGIN - AL-AWALIYAH</title>
     <link rel="stylesheet" href="../assets/css/login.css">
 </head>
-
 <body>
     @if(session('error'))
-        <div class="alert alert-danger" role="alert">
-            {{ session('error') }}
-        </div>
+    <div class="alert alert-danger" role="alert">
+        {{ session('error') }}
+    </div>
     @endif
     <main>
         <div class="box">
@@ -29,7 +27,7 @@
                             <td>
                                 <div class="container">
                                     <div class="did-floating-label-content">
-                                        <input class="did-floating-input" type="email" placeholder="" name="email"/>
+                                        <input class="did-floating-input" type="email" placeholder="" name="email" />
                                         <label class="did-floating-label">Username</label>
                                     </div>
                                 </div>
@@ -39,7 +37,8 @@
                             <td>
                                 <div class="container">
                                     <div class="did-floating-label-content">
-                                        <input class="did-floating-input" type="password" placeholder="" name="password"/>
+                                        <input class="did-floating-input" type="password" placeholder=""
+                                            name="password" />
                                         <label class="did-floating-label">Password</label>
                                     </div>
                                 </div>
@@ -65,5 +64,4 @@
         </div>
     </footer>
 </body>
-
 </html>

@@ -10,13 +10,13 @@
                   Tambah Data +
                 </button>
               </div>
-              <div class="col-3">
+              <div class="col-4">
                 <!-- Search -->
                 <div class="input-group mb-3">
-                  <div class="input-group-text">
-                    <iconify-icon icon="material-symbols:search" width="1.5rem" height="1.5rem"  style="color: black"></iconify-icon>
-                  </div>
-                  <input type="text" placeholder="cari" class="form-control" aria-label="Text input with checkbox">
+                  <form class="d-flex" action="{{ route('siswa.search') }}" method="GET">
+                  <input type="text" class="form-control rounded-0 rounded-start" placeholder="Cari Siswa" name="keyword">
+                  <button class="btn btn-primary rounded-0 rounded-end" type="submit" id="button-addon2">Cari</button>
+                </form>
                 </div>
               </div>
             </div>
@@ -169,7 +169,7 @@
           var idKelas = this.getAttribute('data-id_kelas');
           var status = this.getAttribute('data-status');
           var form = document.getElementById('editForm');
-          var actionEdit = "{{ route('siswa.update', 'nis_placeholder') }}".replace('nis_placeholder',nis);
+          var actionEdit = "{{ route('siswa.update', 'nis_placeholder') }}".replace('nis_placeholder', nis);
           form.action = actionEdit;
           document.getElementById('edit-nis').value = nis;
           document.getElementById('edit-nama').value = nama;

@@ -20,42 +20,37 @@ class JadwalController extends Controller
 
     public function store(Request $request)
     {
-        // Validasi data yang diterima
         $request->validate([
             'waktu' => 'required',
             'deskripsi' => 'required',
             'id_kelas' => 'required'
         ]);
     
-        // Gunakan DB Facade untuk menyimpan data
         DB::table('jadwal_mengajar')->insert([
             'waktu' => $request->waktu,
             'deskripsi' => $request->deskripsi,
             'id_kelas' => $request->id_kelas,
-            'created_at' => now(), // Jika tabel memiliki kolom timestamps
-            'updated_at' => now()  // Jika tabel memiliki kolom timestamps
+            'created_at' => now()
         ]);
     
-        // Redirect ke halaman tertentu dengan pesan sukses
         return redirect('/jadwal')->with('success', 'Data Jadwal berhasil ditambahkan.');
     }
     public function update(Request $request, string $id)
     {
-        // Validasi data yang diterima
         $request->validate([
             'waktu' => 'required',
             'deskripsi' => 'required',
             'id_kelas' => 'required'
         ]);
     
-        // Gunakan DB Facade untuk menyimpan data
         DB::table('jadwal_mengajar')->where('id', $id)->update([
             'waktu' => $request->waktu,
             'deskripsi' => $request->deskripsi,
-            'id_kelas' => $request->id_kelas
+            'id_kelas' => $request->id_kelas,
+            'updated_at' => now()
         ]);
     
-        // Redirect ke halaman tertentu dengan pesan sukses
+
         return redirect('/jadwal')->with('success', 'Data Jadwal berhasil diubah.');
     }
     public function destroy(string $id)
