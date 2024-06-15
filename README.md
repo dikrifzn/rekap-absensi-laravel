@@ -5,11 +5,9 @@ Project ini merupakan Tugas Project Akhir dari Mata Kuliah Pemograman Web 2.
 ## Daftar isi
 - [Persyaratan Sistem](#persyaratan-sistem)
 - [Instalasi](#instalasi)
-- [Konfigurasi](#konfigurasi)
 - [Penggunaan](#penggunaan)
 - [Fitur](#fitur)
 - [Kontribusi](#kontribusi)
-- [Lisensi](#lisensi)
 
 ## Persyaratan Sistem
 
